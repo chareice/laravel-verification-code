@@ -31,6 +31,7 @@ class FeatureTest extends TestCase
 
         $this->assertFalse($codeService->check($key, '123'));
         $this->assertTrue($codeService->check($key, $code));
-
+        // Cache Cleaned
+        $this->assertFalse($codeService->check($key, $code));
     }
 }

@@ -10,9 +10,10 @@ class VerificationCodeService {
      * 检查验证码是否正确
      * @param string $key
      * @param string $code
+     * @param bool $cleanCodeAfterChecked
      * @return bool
      */
-    public function check(string $key, string $code): bool
+    public function check(string $key, string $code, bool $cleanCodeAfterChecked=true): bool
     {
         $cachedCode = Cache::get($key);
 
@@ -20,7 +21,15 @@ class VerificationCodeService {
             return false;
         }
 
-        return $cachedCode == $code;
+        if ($cachedCode == $code) {
+            if ($cleanCodeAfterChecked) {
+                Cache::forget($key);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public function setCode(string $key, int $seconds): string
