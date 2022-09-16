@@ -34,4 +34,14 @@ class FeatureTest extends TestCase
         // Cache Cleaned
         $this->assertFalse($codeService->check($key, $code));
     }
+
+    public function testResetCode() {
+        $key = '13877776666';
+        /** @var VerificationCodeService $codeService */
+        $codeService = $this->app->make(VerificationCodeService::class);
+        $oldCode = $codeService->setCode($key, 30);
+        $newCode = $codeService->setCode($key, 30);
+        $this->assertFalse($codeService->check($key, $oldCode));
+        $this->assertTrue($codeService->check($key, $newCode));
+    }
 }

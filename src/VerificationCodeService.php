@@ -35,8 +35,7 @@ class VerificationCodeService {
     public function setCode(string $key, int $seconds): string
     {
         $code = $this->randomCode();
-        Cache::add($key, $code, $seconds);
-
+        Cache::put($key, $code, $seconds);
 
         VerificationCodeCreatedEvent::dispatch($key, $code, $seconds);
 
