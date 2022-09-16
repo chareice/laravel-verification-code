@@ -37,7 +37,8 @@ class VerificationCodeService {
         $code = $this->randomCode();
         Cache::add($key, $code, $seconds);
 
-        Event::dispatch(VerificationCodeCreatedEvent::class, compact('key', 'code', 'seconds'));
+
+        VerificationCodeCreatedEvent::dispatch($key, $code, $seconds);
 
         return $code;
     }

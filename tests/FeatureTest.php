@@ -25,8 +25,8 @@ class FeatureTest extends TestCase
         $this->assertFalse($codeService->check('123', '123'));
         $code = $codeService->setCode($key, 30);
 
-        Event::assertDispatched(VerificationCodeCreatedEvent::class, function($event, $payload) use ($key, $code) {
-            return $key === $payload['key'] && $code === $payload['code'];
+        Event::assertDispatched(VerificationCodeCreatedEvent::class, function($event) use ($key, $code) {
+            return $event->key == $key && $event->code == $code;
         });
 
         $this->assertFalse($codeService->check($key, '123'));
